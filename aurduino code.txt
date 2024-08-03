@@ -1,0 +1,49 @@
+=#include <LiquidCrystal_I2C.h>  // Include the LCD library
+
+// Initialize the LCD with the I2C address, 16 columns, and 2 rows
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+int sensorPin = A0;  // Pin connected to the sensor
+
+void setup() {
+  Serial.begin(9600);      // Start serial communication at 9600 baud rate
+  lcd.begin();             // Initialize the LCD
+  pinMode(2, OUTPUT);      // Set pin 2 as an output
+  pinMode(3, OUTPUT);      // Set pin 3 as an output
+  pinMode(4, OUTPUT);      // Set pin 4 as an output
+}
+
+void loop() {
+  int sensorValue = analogRead(sensorPin);   // Read the value from the sensor
+  Serial.println(sensorValue);               // Print the sensor value to the serial monitor
+  
+  int turbidity = map(sensorValue, 0, 750, 100, 0);  // Map sensor value to turbidity
+  
+  lcd.setCursor(0, 0);                       // Set cursor to the first row
+  lcd.print("Turbidity: ");                  // Print label
+  lcd.print(turbidity);                     // Print turbidity value
+  
+  delay(100);  // Wait for 100 milliseconds
+  
+  if (turbidity < 15) {
+    digitalWrite(2, HIGH);  // Turn on LED or device connected to pin 2
+    digitalWrite(3, LOW);   // Turn off LED or device connected to pin 3
+    digitalWrite(4, LOW);   // Turn off LED or device connected to pin 4
+    lcd.setCursor(0, 1);   // Set cursor to the second row
+    lcd.print("It's Clean"); // Display status
+  } else if (turbidity >= 15 && turbidity < 40) {
+    digitalWrite(2, LOW);   // Turn off LED or device connected to pin 2
+    digitalWrite(3, HIGH);  // Turn on LED or device connected to pin 3
+    digitalWrite(4, LOW);   // Turn off LED or device connected to pin 4
+    lcd.setCursor(0, 1);   // Set cursor to the second row
+    lcd.print("It's Normal"); // Display status
+  } else {
+    digitalWrite(2, LOW);   // Turn off LED or device connected to pin 2
+    digitalWrite(3, LOW);   // Turn off LED or device connected to pin 3
+    digitalWrite(4, HIGH);  // Turn on LED or device connected to pin 4
+    lcd.setCursor(0, 1);   // Set cursor to the second row
+    lcd.print("It's Dirty"); // Display status
+  }
+  
+  delay(100);  // Wait for 100 milliseconds
+}
