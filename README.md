@@ -1,8 +1,6 @@
 # Smart-Water-Quality-Monitoring-using-IOT
-#Overview
-This project was developed as part of the Technology for Indonesia (TFI) 2024 initiative, supported by the KSE scholarship program. The goal is to create a real-time water quality monitoring system using IoT technology. The system measures key water quality parameters and provides real-time data for analysis and decision-making.
 
-#Key Features
+**#Key Features**
 IoT Integration: Uses ESP32 to connect the system to the internet, enabling real-time monitoring via a cloud platform.
 Water Quality Parameters: Monitors temperature, pH levels, turbidity, and Total Dissolved Solids (TDS) in real-time.
 Data Display: Includes an LCD 20x4 I2C display for local real-time data viewing.
